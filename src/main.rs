@@ -11,6 +11,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     let mut buf: [u8; 4] = [0; 4];
 
+    // Byte message for Problem #2 - Means to an End
     let message = [
         0x49, 0x00, 0x00, 0x30, 0x39, 0x00, 0x00, 0x00, 0x65, 0x49, 0x00, 0x00, 0x30, 0x3a, 0x00,
         0x00, 0x00, 0x66, 0x49, 0x00, 0x00, 0x30, 0x3b, 0x00, 0x00, 0x00, 0x64, 0x49, 0x00, 0x00,
@@ -19,7 +20,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     write.write_all(&message).await?;
 
-    while let Ok(n) = read.read(&mut buf).await {
+    if let Ok(n) = read.read_exact(&mut buf).await {
         info!("Stream incoming...");
 
         if n == 0 {
